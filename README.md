@@ -3,6 +3,7 @@ Power Plant Simulation
 
 
 Project Summary
+
 Welcome to Power Plant Simulator, In this game you will become a Power Plant Manager
 and you will take control of either a Nuclear plant, a Hydroelectric Dam, a Solar
 farm, or a Coal plant. The object of the game is to have the highest total scores
@@ -16,11 +17,13 @@ random event that can hurt your score. Based off your budget and your assistant
 manager you will either win or lose the event. Well lets begin!
 
 How to Run
+
 You will first have to compile the .cpp and .h files and then run the executable. 
 Remember to have all the text files in the same directory as the exacutable or else
 the game will not run properly.
 
 Dependencies
+
 The program relies on 11 different .txt files which can be found within this project directory. These text files
 need to be in the same directory as your executable or else the program will not run. Also one of the C++ 
 include statements is '#include <unistd.h>'. This is the unix standered lib, which obviously only works with
@@ -40,17 +43,23 @@ unix basesd systems. I used to to use the sleep function. The windows include is
 
 
 System Requirements
+
 Since the sleep function is unix only, the program on its own is unix based OS only, a minor change of all usleep to 
 Sleep and a change in the include statement #include <unistd.h> to #include <windows.h> would make the program 
 windowns compatable 
 
 Group Members
+
 Maxwell Maurice
 
 Contributors
 
+N/A
+
 Open issues/bugs
+
 Ok, their are a ton. 
+
 1 I do not handle all input cases causing errors, 
 
 2 my program can be made C++ only (meaning both OS X and windows compatable) but I do not know how to get a time 
