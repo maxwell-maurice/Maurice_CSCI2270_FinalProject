@@ -29,13 +29,13 @@ need to be in the same directory as your executable or else the program will not
 include statements is '#include <unistd.h>'. This is the unix standered lib, which obviously only works with
 unix basesd systems. I used to to use the sleep function. The windows include is   #include <windows.h>.
 
-#include <windows.h>
+include <windows.h>
   inline void delay( unsigned long ms )
     {
     Sleep( ms );
     }
 
-#include <unistd.h>
+include <unistd.h>
   inline void delay( unsigned long ms )
     {
     usleep( ms * 1000 );
