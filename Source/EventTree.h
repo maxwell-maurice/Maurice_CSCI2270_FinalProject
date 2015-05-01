@@ -45,7 +45,7 @@ public:
     EventTree();
     virtual ~EventTree();
     void addEventNode(int IC,int PRC,int PPC,int BC,std::string T,int ID);
-    void EventHandler(PowerPlant UserPlant,EventNode* CurrentEvent, AssistantManager AM);
+    PowerPlant EventHandler(PowerPlant UserPlant,EventNode* CurrentEvent, AssistantManager AM);
     void TreeSetup(std::string PlantTyp);
     EventNode* searchEventTree(EventNode* node, int ID);
     EventNode* getRandomEvent();
