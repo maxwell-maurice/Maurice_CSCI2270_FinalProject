@@ -9,14 +9,15 @@
 #ifndef __PowerPlant__Plant__
 #define __PowerPlant__Plant__
 
-#include <vector>
 #include <iostream>
-#include <string>
-#include <stdlib.h>
-#include <time.h>
-#include <stdio.h>
 #include <unistd.h>
 
+
+
+
+//Sleep Fucntion. VERY IMPORTNAT IF YOU ARE RUNNING WINODWS THIS WILL NOT WORK!!!
+//for Windows users [Sleep( X )] should replace [sleep(4)] and one incude statement should change from
+//#include <unistd.h> to #include <windows.h>
 struct AssistantManager{
     std::string Name;
     std::string Bio;
@@ -26,19 +27,18 @@ struct AssistantManager{
     int MaintenanceAbility;
     int WildCardFactor;
     AssistantManager(){
-        //May need pauses in all of these
         Name = rand() % 10 + 1;
         srand (static_cast<unsigned int>(time(NULL)));
-        //sleep(1);
+        sleep(2);
         InvestmentAbility =rand() % 10 + 1;
         srand (static_cast<unsigned int>(time(NULL)));
-        //sleep(1);
+        sleep(1);
         PublicRelationsAbility = rand() % 10 + 1;
         srand (static_cast<unsigned int>(time(NULL)));
-        //sleep(1);
+        sleep(1);
         StaffManAbility = rand() % 10 + 1;
         srand (static_cast<unsigned int>(time(NULL)));
-        //sleep(1);
+        sleep(2);
         MaintenanceAbility = rand() % 10 + 1;
         srand (static_cast<unsigned int>(time(NULL)));
         WildCardFactor = rand() % 10 + 1;
@@ -109,3 +109,4 @@ public:
 
 
 #endif /* defined(__PowerPlant__Plant__) */
+
