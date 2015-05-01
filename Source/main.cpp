@@ -7,11 +7,9 @@
 //
 
 #include <iostream>
-#include <limits>
 #include "Plant.h"
 #include "EventTree.h"
 #include <string>
-#include <time.h>
 #include <fstream>
 #include <sstream>
 #include <stdlib.h>
@@ -21,18 +19,18 @@ using namespace std;
 
 /*
  TO DO:
- Organize
- Make ReadMe
+ Floating point exception after some events
  Determain Number game
- Finish writing all intro text files
- AssistaintManager Bios
- Write events for each plant
- change from pointers to a ton of data
+ Test More
+ Delete Crap
  */
+
+//Final Function that is called at the end of both loops, Displays Users Score
 void quitMenu(PowerPlant UserPlant){
     cout<<"Thank you for playing!"<<endl;
     UserPlant.printScores();
 }
+//Function that strictly reads every line of a .txt file.
 void Read(string Type){
     string line;
     ifstream myfile (Type);
@@ -44,19 +42,22 @@ void Read(string Type){
     }
 }
 
+//Runs the Power plant time cycle. This function has 2 objects, the Plant and the event tree for the plant. The run displays the date, calls Event handler to displays an event and event outcome, calls set budget to allow user to set the budget for each year, allows user to exit after every 2 years, checks if a score is below a threshold and fails the plant if so. Once loops is exited the game compleates and calls quitMenu.
 void MasterRun(PowerPlant UserPlant, string Type){
     EventTree Events;
     Events.TreeSetup(Type);
     UserPlant.getAssistantManager();
+    cout<<"\n";
     std::string Months[12] = {"January","Febuary","March","April","May","June","July","August","September","October","November","December"};
     
     Read("InstructionsBudget.txt");
     UserPlant.ifFailed();
     UserPlant.SetPlantBudget();
-    cout<<Months[rand() % 11]<<rand() % 27<<", "<<UserPlant.year<<endl;
-    Events.EventHandler(UserPlant, Events.getRandomEvent(),UserPlant.Assistant);
+    cout<<"\n";
+    cout<<Months[rand() % 11]<<" "<<rand() % 27<<", "<<UserPlant.year<<endl;
+    UserPlant=Events.EventHandler(UserPlant, Events.getRandomEvent(),UserPlant.Assistant);
     UserPlant.year++;
-    std::cout<<"\n";
+    cout<<"\n";
     while (UserPlant.year != 2030) {
         if (UserPlant.year == 2018 ||UserPlant.year == 2020||UserPlant.year == 2022||UserPlant.year == 2024 ||UserPlant.year ==2026||UserPlant.year == 2028) {
             string Confirm;
@@ -68,14 +69,16 @@ void MasterRun(PowerPlant UserPlant, string Type){
             }else if (Confirm== "no"|| Confirm== "No"||Confirm== "n"||Confirm== "N"){
                 UserPlant.ifFailed();
                 UserPlant.SetPlantBudget();
-                cout<<Months[rand() % 11]<<rand() % 27<<", "<<UserPlant.year<<endl;
+                cout<<"\n";
+                cout<<Months[rand() % 11]<<" "<<rand() % 27<<", "<<UserPlant.year<<endl;
                 Events.EventHandler(UserPlant, Events.getRandomEvent(),UserPlant.Assistant);
                 UserPlant.year++;
             }
         }else{
             UserPlant.ifFailed();
             UserPlant.SetPlantBudget();
-            cout<<Months[rand() % 11]<<rand() % 27<<", "<<UserPlant.year<<endl;
+            cout<<"\n";
+            cout<<Months[rand() % 11]<<" "<<rand() % 27<<", "<<UserPlant.year<<endl;
             Events.EventHandler(UserPlant, Events.getRandomEvent(),UserPlant.Assistant);
             UserPlant.year++;
         }
@@ -86,22 +89,21 @@ void MasterRun(PowerPlant UserPlant, string Type){
 
 
 
-
+//Just displays primary Menu
 void TitleMenu(){
-    std::cout<<"\n";
-    std::cout<<"\n";
-    cout<<"             Welcome To Power Plant Simulator"<<endl;
+    cout<<"\n"<<"\n"<<"             Welcome To Power Plant Simulator"<<endl;
     cout<<"                Press Enter Key To Continue"<<endl;
     std::cin.ignore( std::numeric_limits <std::streamsize> ::max(), '\n' );
 }
+//Displays plant types for user
 void PickMenu(){
-    std::cout<<"\n";
-    cout << "======Select Plant Type=====" << endl;
+    cout << "\n"<<"======Select Plant Type=====" << endl;
     cout << "1. Nuclear Plant" << endl;
     cout << "2. Solar Plant" << endl;
     cout << "3. Coal Plant" << endl;
     cout << "4. Hydroelectric Plant" << endl;
 }
+//Display menu that shows the information for all types of plants
 void DifficultyMenu(string PR,string PP,string CF,string IR,string D){
     std::cout<<"\n";
     cout << "======Information=====" << endl;
@@ -111,9 +113,17 @@ void DifficultyMenu(string PR,string PP,string CF,string IR,string D){
     cout<<"Income Rate: "<<IR<<endl;
     cout<<"Difficulty: "<<D<<endl;
 }
+
+
+//Delay Fucntion. VERY IMPORTNAT IF YOU ARE RUNNING WINODWS THIS WILL NOT WORK!!!
+//for Windows users [Sleep( X )] should replace [sleep(4)] and one incude statement should change from
+//#include <unistd.h> to #include <windows.h>
+
 void Delay(){
-    //sleep(4);******************************
+    sleep(4);
 }
+
+//MainMenu that runs the difficulty menu and Pick menu and reads Plant Dependedt introductions. Gets parameters for the power plant such as plant type, assistaint manager and when compleates launches to MasterRun
 void MainMenu(){
     int input;
     bool quit = false;
@@ -225,7 +235,7 @@ void MainMenu(){
             }
             Continue = true;
         }
-        if (input > 6 || input < 1) {
+        if (input > 6 || input < 1){
             cout << "Invalid Input, Please Select Again" << endl;
             cin.clear();
             cin.ignore(10000,'\n');
@@ -233,176 +243,13 @@ void MainMenu(){
     }
 }
 
+
+//short main, calls title menu, reads primart instructions and then runs MainMenu. A return to main only happends when quit menu is run
 int main(int argc, const char * argv[]){
-    Read("InstructionsGeneral.txt");
     TitleMenu();
+    cout<<"\n"<<endl;
+    Read("InstructionsGeneral.txt");
     MainMenu();
     return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-/*
- 
- void CoalPlantRun(CoalPlant UserPlant){
- EventTree Events;
- Events.TreeSetup("Coal");
- UserPlant.getAssistantManager();
- std::string Months[12] = {"January","Febuary","March","April","May","June","July","August","September","October","November","December"};
- 
- 
- UserPlant.ifFailed();
- UserPlant.SetPlantBudget();
- cout<<Months[rand() % 11]<<rand() % 27<<", "<<UserPlant.year<<endl;
- Events.EventHandler(UserPlant, Events.getRandomEvent(),UserPlant.Assistant);
- UserPlant.year++;
- std::cout<<"\n";
- 
- while (UserPlant.year != 2030) {
- 
- if (UserPlant.year == 2018 ||UserPlant.year == 2020||UserPlant.year == 2022||UserPlant.year == 2024 ||UserPlant.year ==2026||UserPlant.year == 2028) {
- string Confirm;
- cout<<"Would you like to Retire?(Y/N): ";
- getline(cin,Confirm);
- if (Confirm== "yes" || Confirm== "Yes" || Confirm== "y"||Confirm== "Y") {
- break;
- }else if (Confirm== "no"|| Confirm== "No"||Confirm== "n"||Confirm== "N"){
- UserPlant.ifFailed();
- UserPlant.SetPlantBudget();
- cout<<Months[rand() % 11]<<rand() % 27<<", "<<UserPlant.year<<endl;
- Events.EventHandler(UserPlant, Events.getRandomEvent(),UserPlant.Assistant);
- UserPlant.year++;
- }
- }else{
- UserPlant.ifFailed();
- UserPlant.SetPlantBudget();
- cout<<Months[rand() % 11]<<rand() % 27<<", "<<UserPlant.year<<endl;
- Events.EventHandler(UserPlant, Events.getRandomEvent(),UserPlant.Assistant);
- UserPlant.year++;
- }
- 
- }
- quitMenu();
- }
- void SolarPlantRun(SolarPlant UserPlant){
- EventTree Events;
- Events.TreeSetup("Solar");
- UserPlant.getAssistantManager();
- std::string Months[12] = {"January","Febuary","March","April","May","June","July","August","September","October","November","December"};
- 
- UserPlant.ifFailed();
- UserPlant.SetPlantBudget();
- cout<<Months[rand() % 11]<<rand() % 27<<", "<<UserPlant.year<<endl;
- Events.EventHandler(UserPlant, Events.getRandomEvent(),UserPlant.Assistant);
- UserPlant.year++;
- std::cout<<"\n";
- 
- while (UserPlant.year != 2030) {
- if (UserPlant.year == 2018 ||UserPlant.year == 2020||UserPlant.year == 2022||UserPlant.year == 2024 ||UserPlant.year ==2026||UserPlant.year == 2028) {
- string Confirm;
- cout<<"Would you like to Retire?(Y/N): ";
- getline(cin,Confirm);
- if (Confirm== "yes" || Confirm== "Yes" || Confirm== "y"||Confirm== "Y") {
- break;
- }else if (Confirm== "no"|| Confirm== "No"||Confirm== "n"||Confirm== "N"){
- UserPlant.ifFailed();
- UserPlant.SetPlantBudget();
- cout<<Months[rand() % 11]<<rand() % 27<<", "<<UserPlant.year<<endl;
- Events.EventHandler(UserPlant, Events.getRandomEvent(),UserPlant.Assistant);
- UserPlant.year++;
- }
- }else{
- UserPlant.ifFailed();
- UserPlant.SetPlantBudget();
- cout<<Months[rand() % 11]<<rand() % 27<<", "<<UserPlant.year<<endl;
- Events.EventHandler(UserPlant, Events.getRandomEvent(),UserPlant.Assistant);
- UserPlant.year++;
- }
- }
- }
- void HydroPlantRun(HydroPlant UserPlant){
- EventTree Events;
- Events.TreeSetup("Hyro");
- UserPlant.getAssistantManager();
- std::string Months[12] = {"January","Febuary","March","April","May","June","July","August","September","October","November","December"};
- 
- UserPlant.ifFailed();
- UserPlant.SetPlantBudget();
- cout<<Months[rand() % 11]<<rand() % 27<<", "<<UserPlant.year<<endl;
- Events.EventHandler(UserPlant, Events.getRandomEvent(),UserPlant.Assistant);
- UserPlant.year++;
- std::cout<<"\n";
- 
- while (UserPlant.year != 2030) {
- if (UserPlant.year == 2018 ||UserPlant.year == 2020||UserPlant.year == 2022||UserPlant.year == 2024 ||UserPlant.year ==2026||UserPlant.year == 2028) {
- string Confirm;
- cout<<"Would you like to Retire?(Y/N): ";
- getline(cin,Confirm);
- if (Confirm== "yes" || Confirm== "Yes" || Confirm== "y"||Confirm== "Y") {
- break;
- }else if (Confirm== "no"|| Confirm== "No"||Confirm== "n"||Confirm== "N"){
- UserPlant.ifFailed();
- UserPlant.SetPlantBudget();
- cout<<Months[rand() % 11]<<rand() % 27<<", "<<UserPlant.year<<endl;
- Events.EventHandler(UserPlant, Events.getRandomEvent(),UserPlant.Assistant);
- UserPlant.year++;
- }
- }else{
- UserPlant.ifFailed();
- UserPlant.SetPlantBudget();
- cout<<Months[rand() % 11]<<rand() % 27<<", "<<UserPlant.year<<endl;
- Events.EventHandler(UserPlant, Events.getRandomEvent(),UserPlant.Assistant);
- UserPlant.year++;
- }
- }
- }
- 
- 
- 
- void NuclearPlantRun(NuclearPlant UserPlant){
- EventTree Events;
- Events.TreeSetup("Nuclear");
- UserPlant.getAssistantManager();
- std::string Months[12] = {"January","Febuary","March","April","May","June","July","August","September","October","November","December"};
- 
- UserPlant.ifFailed();
- UserPlant.SetPlantBudget();
- cout<<Months[rand() % 11]<<rand() % 27<<", "<<UserPlant.year<<endl;
- Events.EventHandler(UserPlant, Events.getRandomEvent(),UserPlant.Assistant);
- UserPlant.year++;
- std::cout<<"\n";
- 
- while (UserPlant.year != 2030) {
- if (UserPlant.year == 2018 ||UserPlant.year == 2020||UserPlant.year == 2022||UserPlant.year == 2024 ||UserPlant.year ==2026||UserPlant.year == 2028) {
- string Confirm;
- cout<<"Would you like to Retire?(Y/N): ";
- getline(cin,Confirm);
- if (Confirm== "yes" || Confirm== "Yes" || Confirm== "y"||Confirm== "Y") {
- break;
- }else if (Confirm== "no"|| Confirm== "No"||Confirm== "n"||Confirm== "N"){
- UserPlant.ifFailed();
- UserPlant.SetPlantBudget();
- cout<<Months[rand() % 11]<<rand() % 27<<", "<<UserPlant.year<<endl;
- Events.EventHandler(UserPlant, Events.getRandomEvent(),UserPlant.Assistant);
- UserPlant.year++;
- }
- }else{
- UserPlant.ifFailed();
- UserPlant.SetPlantBudget();
- cout<<Months[rand() % 11]<<rand() % 27<<", "<<UserPlant.year<<endl;
- Events.EventHandler(UserPlant, Events.getRandomEvent(),UserPlant.Assistant);
- UserPlant.year++;
- }
- }
- }
- 
- */
